@@ -25,6 +25,9 @@ Application for get books with such operations as in table below:
 To generate go code from protobuf, you need a command to enter into the terminal while you are in the project root:
 `protoc -I . user.proto --grpc-gateway_out . --go_out=plugins=grpc:.`
 
-## How to run application via docker-compose
-To run application via docker-compose, you need the command to enter into ternimal while you are in the root of the project:
-`docker-compose -f docker-compose.yaml up`
+## How to run application via cluster
+To run application via cluster, you need create a cluster:
+`k3d cluster create hello --port 1514:1514/UDP@loadbalancer`
+
+Then, use command:
+`kubectl apply -f ./kube-config`
