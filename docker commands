@@ -1,0 +1,5 @@
+docker container prune -f //delete all containers
+
+docker build -f ./docker/db/Dockerfile -t db . // create image from database
+
+docker build -f ./docker/server/Dockerfile -t server . // create image from server

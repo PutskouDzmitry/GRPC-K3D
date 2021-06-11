@@ -1,0 +1,94 @@
+// you can generate go models by the following command:
+// protoc -I . user.proto --grpc-gateway_out . --go_out=plugins=grpc:.
+
+syntax = "proto3";
+
+option go_package = "/go_proto";
+
+import "google/api/annotations.proto";
+
+package book;
+
+
+message Book {
+  int64 BookId = 1;
+  int64 AuthorId = 2;
+  int64 PublisherId = 3;
+  string NameOfBook = 4;
+  string YearOfPublication = 5;
+  int64 BookVolume = 6;
+  int64 Number = 7;
+}
+
+message Result {
+  int64 BookId = 1;
+  string NameOfBook = 2;
+  string NameOfPublisher = 3;
+}
+
+message ReadAllBooksRequest {
+}
+
+message ReadAllBooksResponse {
+  repeated Book book = 1;
+}
+
+message ReadBookRequest {
+  int64 id = 1;
+}
+
+message ReadBookResponse {
+  Result book = 1;
+}
+
+message AddBookRequest {
+  Book book = 1;
+}
+
+message AddBookResponse {
+  int64 id = 1;
+}
+
+message UpdateBookRequest {
+  int64 id = 1;
+  int64 unit_price = 2;
+}
+
+message UpdateBookResponse {
+}
+
+message DeleteBookRequest {
+  int64 id = 1;
+}
+
+message DeleteBookResponse {
+}
+
+service Reader {
+  rpc ReadAll(ReadAllBooksRequest) returns (ReadAllBooksResponse){
+    option(google.api.http) = {
+      get: "/api/v1/books"
+    };
+  }
+  rpc Read(ReadBookRequest) returns (ReadBookResponse){
+    option(google.api.http) = {
+      get: "/api/v1/books/{id}"
+    };
+  }
+  rpc Add(AddBookRequest) returns (AddBookResponse){
+    option(google.api.http) = {
+      post: "/api/v1/books"
+      body: "*"
+    };
+  }
+  rpc Update(UpdateBookRequest) returns (UpdateBookResponse){
+    option(google.api.http) = {
+      put: "/api/v1/books/{id}/{unit_price}"
+    };
+  }
+  rpc Delete(DeleteBookRequest) returns (DeleteBookResponse){
+    option(google.api.http) = {
+      delete: "/api/v1/books/{id}"
+    };
+  }
+}
